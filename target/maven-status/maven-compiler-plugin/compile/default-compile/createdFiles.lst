@@ -1,0 +1,6 @@
+com\cats\retailer\entity\Transaction.class
+com\cats\retailer\repository\RetailerRepository.class
+com\cats\retailer\serviceimpl\RetailerServiceImpl.class
+com\cats\retailer\controller\RetailerController.class
+com\cats\retailer\RetailerServiceApplication.class
+com\cats\retailer\service\RetailerService.class
