@@ -27,6 +27,7 @@ public class RetailerServiceImpl implements RetailerService {
 		// TODO Auto-generated method stub
 		return retailerRepository.save(transaction);
 	}
+	
 	@Override
 	public Map<String, Map<Month, Integer>> getAllCustomerRewards() {
 		Map<String, Map<Month, Integer>> customerRewards=null;

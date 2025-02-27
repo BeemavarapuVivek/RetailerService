@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,8 @@ public class CustomerUtils {
 
 
 
-	public static Map<String, Map<Month, Integer>> calculateRewardsForCustomerTransaction(List<Transaction> transactionList) {
+	public static Map<String, Map<Month, Integer>> calculateRewardsForCustomerTransaction(
+			List<Transaction> transactionList) {
 
 		Map<String, List<Transaction>> customerWiseTransactionList = transactionList.stream()
 				.collect(Collectors.groupingBy(Transaction::getCust_email));
@@ -30,8 +33,8 @@ public class CustomerUtils {
 			Map<Month, Integer> monthlyPoints = new HashMap<>();
 
 			for (Transaction transactionBean : mapWithCustomerInfo.getValue()) {
-				LocalDate date=convertDateToLocalDate(transactionBean.getCreation_date());
-				Month month = date.getMonth();
+				LocalDate dateTime = convertDateToLocalDate(transactionBean.getCreation_date());
+				Month month = dateTime.getMonth();
 				int points = calculateRewardsForEachTransaction(transactionBean.getTran_amount());
 				if (monthlyPoints.containsKey(month)) {
 					monthlyPoints.put(month, monthlyPoints.get(month) + points);
@@ -56,19 +59,17 @@ public class CustomerUtils {
 	}
 	
 	public static LocalDate convertDateToLocalDate(Date inputDate) {
-		LocalDate currentDate= LocalDate.parse(inputDate.toString());
-		System.out.println("currentDate::"+currentDate.getMonth());
+		LocalDate currentDate = inputDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return currentDate;
 	}
 	
 	public static Date convertStringDateToDate(String strDate) throws ParseException {
-		
-		Date date=null;
+
+		Date date = null;
 		try {
-		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		 date= formatter.parse(strDate);
-		
-		}catch(Exception e) {
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			date = formatter.parse(strDate);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return date;

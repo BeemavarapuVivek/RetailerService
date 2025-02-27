@@ -22,33 +22,33 @@ import com.cats.retailer.service.RetailerService;
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RetailerServiceApplicationTests {
 
-	@LocalServerPort 
+	@LocalServerPort
 	private int port;
-	
+
 	@Mock
 	private RetailerService retailerService;
-	
+
 	@InjectMocks
 	RetailerController retailerController;
-	
-	private TestRestTemplate restTemplate=new TestRestTemplate();
-	
+
+	private TestRestTemplate restTemplate = new TestRestTemplate();
+
 	@Test
 	void getAllCustomerRewardPointsTest() {
 		MockitoAnnotations.openMocks(this);
-		Map<String, Map<Month, Integer>> customerPonts=new HashMap<>();
-		Map<Month, Integer> monthlyPoints=new HashMap<>();
-		monthlyPoints.put(Month.FEBRUARY,80);
-		customerPonts.put("customer3@gmail.com",monthlyPoints);
-		
+		Map<String, Map<Month, Integer>> customerPonts = new HashMap<>();
+		Map<Month, Integer> monthlyPoints = new HashMap<>();
+		monthlyPoints.put(Month.FEBRUARY, 80);
+		customerPonts.put("customer3@gmail.com", monthlyPoints);
+
 		when(retailerService.getAllCustomerRewards()).thenReturn(customerPonts);
-		
+
 //		String url="http://localhost:"+port+"/api/retailer/all/rewards";
-		
-		String url="http://localhost:"+port+"/api/retailer/all/rewards";
-		//System.out.println(url);
-		ResponseEntity<Map> response=restTemplate.getForEntity(url, Map.class);
-		assertEquals(200,response.getStatusCodeValue());
+
+		String url = "http://localhost:" + port + "/api/retailer/all/rewards";
+		// System.out.println(url);
+		ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+		assertEquals(200, response.getStatusCodeValue());
 	}
 
 }

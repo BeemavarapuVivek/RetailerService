@@ -24,18 +24,8 @@ public class Transaction {
 	private String cust_email;
 	
 	private double tran_amount;
-	
-	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern="dd-MM-yyyy")
-	private Date creation_date;
 
-//	public Transaction(Long id, String cust_email, double tran_amount, Date creation_date) {
-//		super();
-//		this.id = id;
-//		this.cust_email = cust_email;
-//		this.tran_amount = tran_amount;
-//		this.creation_date = creation_date;
-//	}
+	private Date creation_date;
 
 	public Long getId() {
 		return id;
