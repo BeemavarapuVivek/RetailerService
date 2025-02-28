@@ -2,10 +2,14 @@ package com.cats.retailer.entity;
 
 
 
+
+
+
+
+import java.time.LocalDate;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+
 @Entity
 @Table(name="transaction")
 public class Transaction {
@@ -21,44 +26,60 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String cust_email;
+	@Column(name="cust_email")
+	private String customerEmail;
 	
-	private double tran_amount;
+	@Column(name="tran_amount")
+	private double transactionAmount;
 
-	private Date creation_date;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="creation_date")
+	private LocalDate creationDate;
+
 
 	public Long getId() {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getCust_email() {
-		return cust_email;
+
+	public String getCustomerEmail() {
+		return customerEmail;
 	}
 
-	public void setCust_email(String cust_email) {
-		this.cust_email = cust_email;
+
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
 	}
 
-	public double getTran_amount() {
-		return tran_amount;
+
+	public double getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setTran_amount(double tran_amount) {
-		this.tran_amount = tran_amount;
+
+	public void setTransactionAmount(double transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 
-	public Date getCreation_date() {
-		return creation_date;
+
+	public LocalDate getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreation_date(Date creation_date) {
-		this.creation_date = creation_date;
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
 	}
+
 	
+
+
 	
     
 

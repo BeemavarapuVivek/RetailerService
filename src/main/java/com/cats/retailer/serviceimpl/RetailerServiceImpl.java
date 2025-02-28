@@ -29,14 +29,18 @@ public class RetailerServiceImpl implements RetailerService {
 	}
 	
 	@Override
+	public List<Transaction> findAllTransactions() {
+
+		LocalDate localDate=LocalDate.now().minusMonths(3);
+		return retailerRepository.findRecordsFromLastThreeMonths(localDate);
+	}
+	
+	@Override
 	public Map<String, Map<Month, Integer>> getAllCustomerRewards() {
 		Map<String, Map<Month, Integer>> customerRewards=null;
 		try {
-			Calendar calendar=Calendar.getInstance();
-			calendar.add(Calendar.MONTH, 3);
-			Date d=calendar.getTime();
-//			List<Transaction> transactionList=retailerRepository.findLastThreeMonthsTransactions(d);
-			List<Transaction> transactionList=retailerRepository.findAll();
+			LocalDate localDate=LocalDate.now().minusMonths(3);
+			List<Transaction> transactionList=retailerRepository.findRecordsFromLastThreeMonths(localDate);
 			
 			if(!transactionList.isEmpty() && transactionList!=null) {
 				customerRewards=CustomerUtils.calculateRewardsForCustomerTransaction(transactionList);	
@@ -49,6 +53,10 @@ public class RetailerServiceImpl implements RetailerService {
 			throw new NoSuchRecordAvailable("No Such Record available::");
 		}
 	}
+
+
+
+	
 
 
 	

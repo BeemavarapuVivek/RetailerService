@@ -26,16 +26,17 @@ public class CustomerUtils {
 			List<Transaction> transactionList) {
 
 		Map<String, List<Transaction>> customerWiseTransactionList = transactionList.stream()
-				.collect(Collectors.groupingBy(Transaction::getCust_email));
+				.collect(Collectors.groupingBy(Transaction::getCustomerEmail));
 
 		Map<String, Map<Month, Integer>> customerWithMonthlyRewards = new HashMap<>();
 		for (Map.Entry<String, List<Transaction>> mapWithCustomerInfo : customerWiseTransactionList.entrySet()) {
 			Map<Month, Integer> monthlyPoints = new HashMap<>();
 
 			for (Transaction transactionBean : mapWithCustomerInfo.getValue()) {
-				LocalDate dateTime = convertDateToLocalDate(transactionBean.getCreation_date());
+//				LocalDate dateTime = convertDateToLocalDate(transactionBean.getCreation_date());
+				LocalDate dateTime = transactionBean.getCreationDate();
 				Month month = dateTime.getMonth();
-				int points = calculateRewardsForEachTransaction(transactionBean.getTran_amount());
+				int points = calculateRewardsForEachTransaction(transactionBean.getTransactionAmount());
 				if (monthlyPoints.containsKey(month)) {
 					monthlyPoints.put(month, monthlyPoints.get(month) + points);
 				} else {
@@ -58,20 +59,20 @@ public class CustomerUtils {
 		return points;
 	}
 	
-	public static LocalDate convertDateToLocalDate(Date inputDate) {
-		LocalDate currentDate = inputDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		return currentDate;
-	}
+//	public static LocalDate convertDateToLocalDate(Date inputDate) {
+//		LocalDate currentDate = inputDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		return currentDate;
+//	}
 	
-	public static Date convertStringDateToDate(String strDate) throws ParseException {
-
-		Date date = null;
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			date = formatter.parse(strDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return date;
-	}
+//	public static Date convertStringDateToDate(String strDate) throws ParseException {
+//
+//		Date date = null;
+//		try {
+//			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//			date = formatter.parse(strDate);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return date;
+//	}
 }

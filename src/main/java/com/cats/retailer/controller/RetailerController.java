@@ -1,6 +1,7 @@
 package com.cats.retailer.controller;
 
 import java.time.Month;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class RetailerController {
 	@PostMapping("/save/transaction")
 	public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction transaction) {
 		return ResponseEntity.ok(retailerSevice.saveTransaction(transaction));
+	}
+	
+	@GetMapping("/all/transactions")
+	public ResponseEntity<List<Transaction>> findAllTransactions() {
+		return ResponseEntity.ok(retailerSevice.findAllTransactions());
 	}
 	
 	@GetMapping("/all/rewards")
