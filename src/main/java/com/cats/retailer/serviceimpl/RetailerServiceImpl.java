@@ -31,8 +31,7 @@ public class RetailerServiceImpl implements RetailerService {
 	@Override
 	public List<Transaction> findAllTransactions() {
 
-		LocalDate localDate=LocalDate.now().minusMonths(3);
-		return retailerRepository.findRecordsFromLastThreeMonths(localDate);
+		return retailerRepository.findAll();
 	}
 	
 	@Override

@@ -5,20 +5,27 @@ Retailer Service Api Collections
 Method:POST
 Request:
 {
-    "cust_email": "customer3@gmail.com",
-    "tran_amount": "80.0",
-    "creation_date": "11-02-2025"
+    "customerEmail": "customer1@gmail.com",
+    "transactionAmount": "150.0",
+    "creationDate": "2025-01-02"
 }
 
+2.http://localhost:8080/api/retailer/all/transactions
+Method:POST
+Response: 
+[
+    {
+        "id": 3,
+        "customerEmail": "customer1@gmail.com",
+        "transactionAmount": 150.0,
+        "creationDate": "2025-01-02"
+    }
+]
 
 2.URL: http://localhost:8080/api/retailer/all/rewards
 Method:GET
-Response:
 {
     "customer1@gmail.com": {
-        "FEBRUARY": 210
-    },
-    "customer3@gmail.com": {
-        "FEBRUARY": 30
+        "JANUARY": 150
     }
 }
