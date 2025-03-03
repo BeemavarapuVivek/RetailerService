@@ -1,10 +1,7 @@
 package com.cats.retailer.serviceimpl;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +19,12 @@ public class RetailerServiceImpl implements RetailerService {
 	@Autowired
 	private RetailerRepository retailerRepository;
 	
+	@Autowired
+	private CustomerUtils customerUtils;
+	
+	
 	@Override
 	public Transaction saveTransaction(Transaction transaction) {
-		// TODO Auto-generated method stub
 		return retailerRepository.save(transaction);
 	}
 	
@@ -36,19 +36,36 @@ public class RetailerServiceImpl implements RetailerService {
 	
 	@Override
 	public Map<String, Map<Month, Integer>> getAllCustomerRewards() {
-		Map<String, Map<Month, Integer>> customerRewards=null;
+		Map<String, Map<Month, Integer>> allCustomerRewards=null;
 		try {
 			LocalDate localDate=LocalDate.now().minusMonths(3);
 			List<Transaction> transactionList=retailerRepository.findRecordsFromLastThreeMonths(localDate);
 			
 			if(!transactionList.isEmpty() && transactionList!=null) {
-				customerRewards=CustomerUtils.calculateRewardsForCustomerTransaction(transactionList);	
+				allCustomerRewards=customerUtils.calculateRewardsForCustomerTransaction(transactionList);	
+			}else {
+				throw new NoSuchRecordAvailable("No Such Record available::");
+			}
+			return allCustomerRewards;
+		}catch(Exception e) {
+			throw new NoSuchRecordAvailable("No Such Record available::");
+		}
+	}
+
+	@Override
+	public Map<String, Map<Month, Integer>> getCustomerRewardsByEmailId(String emailId) {
+		Map<String, Map<Month, Integer>> customerRewards=null;
+		try {
+			LocalDate localDate=LocalDate.now().minusMonths(3);
+			List<Transaction> transactionList=retailerRepository.findCustomerRecordsFromLastThreeMonths(localDate,emailId);
+			
+			if(!transactionList.isEmpty() && transactionList!=null) {
+				customerRewards=customerUtils.calculateRewardsForCustomerTransaction(transactionList);	
 			}else {
 				throw new NoSuchRecordAvailable("No Such Record available::");
 			}
 			return customerRewards;
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
 			throw new NoSuchRecordAvailable("No Such Record available::");
 		}
 	}

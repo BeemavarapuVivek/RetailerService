@@ -9,6 +9,8 @@ package com.cats.retailer.entity;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +38,17 @@ public class Transaction {
 	@Temporal(TemporalType.DATE)
 	@Column(name="creation_date")
 	private LocalDate creationDate;
+
+	public Transaction() {
+		super();
+	}
+	public Transaction(String customerEmail, double transactionAmount, LocalDate creationDate) {
+		super();
+//		this.id = id;
+		this.customerEmail = customerEmail;
+		this.transactionAmount = transactionAmount;
+		this.creationDate = creationDate;
+	}
 
 
 	public Long getId() {

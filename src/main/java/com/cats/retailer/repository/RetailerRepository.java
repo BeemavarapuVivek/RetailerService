@@ -13,6 +13,9 @@ public interface RetailerRepository extends JpaRepository<Transaction, Long> {
 
 	@Query("SELECT t FROM Transaction t WHERE t.creationDate >= :date")
 	public  List<Transaction> findRecordsFromLastThreeMonths(LocalDate date);
+	
+	@Query("SELECT t FROM Transaction t WHERE t.creationDate >= :date and t.customerEmail=:emailId")
+	public  List<Transaction> findCustomerRecordsFromLastThreeMonths(LocalDate date,String emailId);
 
 
 }

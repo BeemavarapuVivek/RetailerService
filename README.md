@@ -34,7 +34,7 @@ Response:
     }
 ]
 
-2.URL: http://localhost:8080/api/retailer/all/rewards
+3.URL: http://localhost:8080/api/retailer/all/rewards
 Method:GET
 Response:
 {
@@ -43,5 +43,14 @@ Response:
     },
     "customer2@gmail.com": {
         "SEPTEMBER": 350
+    }
+}
+
+
+4.URL: http://localhost:8080/api/retailer/rewards/customer2@gmail.com
+Method:GET
+Response:{
+    "customer2@gmail.com": {
+        "SEPTEMBER": 500
     }
 }
