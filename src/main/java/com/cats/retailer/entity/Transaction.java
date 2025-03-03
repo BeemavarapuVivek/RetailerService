@@ -44,7 +44,6 @@ public class Transaction {
 	}
 	public Transaction(String customerEmail, double transactionAmount, LocalDate creationDate) {
 		super();
-//		this.id = id;
 		this.customerEmail = customerEmail;
 		this.transactionAmount = transactionAmount;
 		this.creationDate = creationDate;
