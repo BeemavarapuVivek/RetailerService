@@ -20,8 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import com.cats.retailer.entity.Transaction;
 import com.cats.retailer.exception.ResourceNotFoundException;
