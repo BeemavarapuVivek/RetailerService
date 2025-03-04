@@ -1,12 +1,12 @@
 package com.cats.retailer.exception;
 
-public class ResouceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
 	private final String message;
 
-	public ResouceNotFoundException(String msg) {
+	public ResourceNotFoundException(String msg) {
 		super();
 		this.message = msg;
 	}

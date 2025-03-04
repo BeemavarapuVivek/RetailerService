@@ -20,9 +20,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cats.retailer.entity.Transaction;
+import com.cats.retailer.exception.ResourceNotFoundException;
 import com.cats.retailer.repository.RetailerRepository;
 import com.cats.retailer.serviceimpl.RetailerServiceImpl;
 import com.cats.retailer.util.CustomerUtils;
@@ -68,7 +70,7 @@ class RetailerServiceTest {
 	}
 
 	@Test
-	void testGetAllCustomerRewards() {
+	void testGetAllCustomerRewards() throws ResourceNotFoundException, Exception {
 		LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
 		List<Transaction> transactionList = Arrays.asList(
 				new Transaction("customer1@gmial.com", 120, LocalDate.of(2025, Month.JANUARY, 1)),
@@ -90,7 +92,7 @@ class RetailerServiceTest {
 	}
 
 	@Test
-	void testGetCustomerRewardsByEmail() {
+	void testGetCustomerRewardsByEmail() throws ResourceNotFoundException, Exception {
 		String emailId = "customer1@gmail.com";
 		LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
 		List<Transaction> transactionList = Arrays.asList(

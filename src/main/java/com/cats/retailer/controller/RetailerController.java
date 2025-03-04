@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cats.retailer.entity.Transaction;
 import com.cats.retailer.exception.BadRequestException;
-import com.cats.retailer.exception.ResouceNotFoundException;
+import com.cats.retailer.exception.ResourceNotFoundException;
 import com.cats.retailer.service.RetailerService;
 
 
@@ -37,13 +37,13 @@ public class RetailerController {
 
 	@PostMapping("/save/transaction")
 	public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction transaction) {
-		logger.trace("save::");
+		logger.trace("save transactions::");
 		if(transaction==null) {
 			throw new BadRequestException("Transaction must not be null");
 		}
 		Transaction savedTransaction=retailerSevice.saveTransaction(transaction);
 		if(savedTransaction==null) {
-			throw new ResouceNotFoundException("Failed to save transaction");
+			throw new ResourceNotFoundException("Failed to save transaction");
 		}
 		return ResponseEntity.ok(savedTransaction);
 	}
@@ -53,19 +53,19 @@ public class RetailerController {
 		logger.trace("find all transactions::");
 		List<Transaction> listOfTransaction=retailerSevice.findAllTransactions();
 		if(listOfTransaction==null || listOfTransaction.isEmpty()) {
-			throw new ResouceNotFoundException("No Transaction found");
+			throw new ResourceNotFoundException("No Transaction found");
 		}
 		return ResponseEntity.ok(listOfTransaction);
 	}
 	
 	@GetMapping("/all/rewards")
-	public ResponseEntity<Map<String, Map<Month, Integer>>> getAllCustomerRewardPoints() {
+	public ResponseEntity<Map<String, Map<Month, Integer>>> getAllCustomerRewardPoints()throws ResourceNotFoundException,Exception {
 		logger.trace("find all rewards::");
 		return ResponseEntity.ok(retailerSevice.getAllCustomerRewards());
 	}
 	
 	@GetMapping("/rewards/{emailId}")
-	public ResponseEntity<Map<String, Map<Month, Integer>>> getCustomerRewardsByEmail(@PathVariable String emailId) {
+	public ResponseEntity<Map<String, Map<Month, Integer>>> getCustomerRewardsByEmail(@PathVariable String emailId)throws ResourceNotFoundException,Exception {
 		logger.trace("find customer rewards::");
 		if(emailId==null || emailId.isEmpty()) {
 			throw new BadRequestException("Email Id must not be null or empty");

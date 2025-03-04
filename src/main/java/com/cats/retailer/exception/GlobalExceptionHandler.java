@@ -11,8 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(value = ResouceNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleNoSuchRecordException(ResouceNotFoundException ex,WebRequest req){
+	@ExceptionHandler(value = ResourceNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleNoSuchRecordException(ResourceNotFoundException ex,WebRequest req){
 		
 		return ResponseEntity.ok(new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
 	}
