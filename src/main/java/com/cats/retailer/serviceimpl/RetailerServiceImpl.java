@@ -5,24 +5,29 @@ import java.time.Month;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.cats.retailer.entity.Transaction;
-import com.cats.retailer.exception.NoSuchRecordAvailable;
+import com.cats.retailer.exception.ResouceNotFoundException;
 import com.cats.retailer.repository.RetailerRepository;
 import com.cats.retailer.service.RetailerService;
 import com.cats.retailer.util.CustomerUtils;
 @Service
 public class RetailerServiceImpl implements RetailerService {
-
-	@Autowired
+	private static final Logger logger =LoggerFactory.getLogger(RetailerServiceImpl.class);
 	private RetailerRepository retailerRepository;
 	
-	@Autowired
 	private CustomerUtils customerUtils;
 	
 	
+	public RetailerServiceImpl(RetailerRepository retailerRepository, CustomerUtils customerUtils) {
+		super();
+		this.retailerRepository = retailerRepository;
+		this.customerUtils = customerUtils;
+	}
+
 	@Override
 	public Transaction saveTransaction(Transaction transaction) {
 		return retailerRepository.save(transaction);
@@ -41,14 +46,15 @@ public class RetailerServiceImpl implements RetailerService {
 			LocalDate localDate=LocalDate.now().minusMonths(3);
 			List<Transaction> transactionList=retailerRepository.findRecordsFromLastThreeMonths(localDate);
 			
-			if(!transactionList.isEmpty() && transactionList!=null) {
-				allCustomerRewards=customerUtils.calculateRewardsForCustomerTransaction(transactionList);	
+			if(transactionList!=null) {
+				allCustomerRewards=customerUtils.calculateCustomerTransactionRewards(transactionList);	
 			}else {
-				throw new NoSuchRecordAvailable("No Such Record available::");
+				throw new ResouceNotFoundException("No Rewards found");
 			}
 			return allCustomerRewards;
 		}catch(Exception e) {
-			throw new NoSuchRecordAvailable("No Such Record available::");
+			logger.trace(e.getMessage());
+			throw new ResouceNotFoundException("No Such Record available");
 		}
 	}
 
@@ -59,14 +65,15 @@ public class RetailerServiceImpl implements RetailerService {
 			LocalDate localDate=LocalDate.now().minusMonths(3);
 			List<Transaction> transactionList=retailerRepository.findCustomerRecordsFromLastThreeMonths(localDate,emailId);
 			
-			if(!transactionList.isEmpty() && transactionList!=null) {
-				customerRewards=customerUtils.calculateRewardsForCustomerTransaction(transactionList);	
+			if(transactionList!=null) {
+				customerRewards=customerUtils.calculateCustomerTransactionRewards(transactionList);	
 			}else {
-				throw new NoSuchRecordAvailable("No Such Record available::");
+				throw new ResouceNotFoundException("No Rewards found for email Id: "+emailId);
 			}
 			return customerRewards;
 		}catch(Exception e) {
-			throw new NoSuchRecordAvailable("No Such Record available::");
+			logger.trace(e.getMessage());
+			throw new ResouceNotFoundException("No Such Record available::");
 		}
 	}
 

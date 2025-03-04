@@ -1,18 +1,24 @@
-# RetailerService
+# Retailer Service API
+This api provides endpoints for customer transactions and rewards
 
-Retailer Service Api Collections
-1.URL: http://localhost:8080/api/retailer/save/transaction
-Method:POST
-Request:
+
+
+#Api Endpoints
+
+## 1.Save Transaction
+- **URI**: '/api/retailer/save/transaction'
+- **Method**: 'POST'
+- **Request Body**:
 {
     "customerEmail": "customer1@gmail.com",
     "transactionAmount": "150.0",
     "creationDate": "2025-01-02"
 }
 
-2.http://localhost:8080/api/retailer/all/transactions
-Method:GET
-Response: 
+## 2.Find All Transactions
+- **URI**: '/api/retailer/all/transactions'
+- **Method**: 'GET'
+- **Response**: 
 [
     {
         "id": 1,
@@ -34,9 +40,10 @@ Response:
     }
 ]
 
-3.URL: http://localhost:8080/api/retailer/all/rewards
-Method:GET
-Response:
+## 3.Find All Customer Rewards
+- **URI**: 'api/retailer/all/rewards'
+- **Method**: 'GET'
+- **Response**:
 {
     "customer1@gmail.com": {
         "JANUARY": 150
@@ -46,11 +53,18 @@ Response:
     }
 }
 
-
-4.URL: http://localhost:8080/api/retailer/rewards/customer2@gmail.com
-Method:GET
-Response:{
+## 4.Get Customer Rewards by Email
+- **URI**: '/api/retailer/rewards/customer2@gmail.com'
+- **Method** 'GET':
+- **Response**:
+{
     "customer2@gmail.com": {
         "SEPTEMBER": 500
     }
 }
+
+## To Run the Application
+```bash
+./mvnw spring-boot:run
+./mvnw clean install
+./mvnw test

@@ -4,13 +4,13 @@ public class ErrorResponse {
 	
 	private int statusCode;
 	
-	private String msg;
+	private String message;
 
 	
-	public ErrorResponse(int statusCode, String msg) {
+	public ErrorResponse(int statusCode, String message) {
 		super();
 		this.statusCode = statusCode;
-		this.msg = msg;
+		this.message = message;
 	}
 
 	public int getStatusCode() {
@@ -21,13 +21,15 @@ public class ErrorResponse {
 		this.statusCode = statusCode;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setMessage(String message) {
+		this.message = message;
 	}
+
+	
 	
 	
 }

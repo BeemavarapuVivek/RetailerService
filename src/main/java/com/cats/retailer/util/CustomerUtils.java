@@ -14,58 +14,31 @@ import com.cats.retailer.entity.Transaction;
 @Component
 public class CustomerUtils {
 
-	public  Map<String, Map<Month, Integer>> calculateRewardsForCustomerTransaction(
-			List<Transaction> transactionList) {
+	public Map<String, Map<Month, Integer>> calculateCustomerTransactionRewards(List<Transaction> transactionList) {
 
-		Map<String, List<Transaction>> customerWiseTransactionList = transactionList.stream()
+		Map<String, List<Transaction>> customerTransactionMap = transactionList.stream()
 				.collect(Collectors.groupingBy(Transaction::getCustomerEmail));
 
-		Map<String, Map<Month, Integer>> customerWithMonthlyRewards = new HashMap<>();
-		for (Map.Entry<String, List<Transaction>> mapWithCustomerInfo : customerWiseTransactionList.entrySet()) {
-			Map<Month, Integer> monthlyPoints = new HashMap<>();
+		Map<String, Map<Month, Integer>> customerMonthlyRewards = new HashMap<>();
+		for (Map.Entry<String, List<Transaction>> customerEntry : customerTransactionMap.entrySet()) {
+			Map<Month, Integer> monthlyRewards = new HashMap<>();
 
-			for (Transaction transactionBean : mapWithCustomerInfo.getValue()) {
-				LocalDate dateTime = transactionBean.getCreationDate();
-				Month month = dateTime.getMonth();
-				int points = calculateRewardsForEachTransaction(transactionBean.getTransactionAmount());
-				if (monthlyPoints.containsKey(month)) {
-					monthlyPoints.put(month, monthlyPoints.get(month) + points);
+			for (Transaction transaction : customerEntry.getValue()) {
+				LocalDate dateTime = transaction.getCreationDate();
+				Month transactionMonth = dateTime.getMonth();
+				int rewardPoints = calculateRewardsForEachTransaction(transaction.getTransactionAmount());
+				if (monthlyRewards.containsKey(transactionMonth)) {
+					monthlyRewards.put(transactionMonth, monthlyRewards.get(transactionMonth) + rewardPoints);
 				} else {
-					monthlyPoints.put(month, points);
+					monthlyRewards.put(transactionMonth, rewardPoints);
 				}
 			}
-			customerWithMonthlyRewards.put(mapWithCustomerInfo.getKey(), monthlyPoints);
+			customerMonthlyRewards.put(customerEntry.getKey(), monthlyRewards);
 		}
-		return customerWithMonthlyRewards;
+		return customerMonthlyRewards;
 	}
 
-	
-	public  Map<String, Map<Month, Integer>> calculateCustomerRewards(
-			List<Transaction> transactionList) {
-
-		Map<String, List<Transaction>> customerWiseTransactionList = transactionList.stream()
-				.collect(Collectors.groupingBy(Transaction::getCustomerEmail));
-
-		Map<String, Map<Month, Integer>> customerWithMonthlyRewards = new HashMap<>();
-		for (Map.Entry<String, List<Transaction>> mapWithCustomerInfo : customerWiseTransactionList.entrySet()) {
-			Map<Month, Integer> monthlyPoints = new HashMap<>();
-
-			for (Transaction transactionBean : mapWithCustomerInfo.getValue()) {
-				LocalDate dateTime = transactionBean.getCreationDate();
-				Month month = dateTime.getMonth();
-				int points = calculateRewardsForEachTransaction(transactionBean.getTransactionAmount());
-				if (monthlyPoints.containsKey(month)) {
-					monthlyPoints.put(month, monthlyPoints.get(month) + points);
-				} else {
-					monthlyPoints.put(month, points);
-				}
-			}
-			customerWithMonthlyRewards.put(mapWithCustomerInfo.getKey(), monthlyPoints);
-		}
-		return customerWithMonthlyRewards;
-	}
-	
-	public  int calculateRewardsForEachTransaction(double amount) {
+	public int calculateRewardsForEachTransaction(double amount) {
 		int points = 0;
 		if (amount > 100) {
 			points += (amount - 100) * 2 + 50;
